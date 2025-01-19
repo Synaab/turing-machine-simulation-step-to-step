@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>شبیه‌ساز ماشین تورینگ</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <style>
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background-color: #f8f9fa;
+            color: #212529;
+            padding: 20px;
+        }
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .section h2 {
+            margin-top: 0;
+            color: #007bff;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            position: relative;
+        }
+        label:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            right: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #333;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            white-space: nowrap;
+            z-index: 1000;
+            font-size: 0.9rem;
+        }
+        input, select, button, textarea {
+            margin-top: 5px;
+            padding: 10px;
+            font-size: 1rem;
+            width: 100%;
+            box-sizing: border-box;
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+        }
+        textarea {
+            resize: vertical;
+        }
+        #tape {
+            display: flex;
+            margin-top: 15px;
+        }
+        .tape-cell {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #fff;
+        }
+        .current {
+            background-color: #ffeb3b;
+        }
+        .instructions {
+            background-color: #e9ecef;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .loading-image {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+        }
+        .creators img {
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            margin-bottom: 10px;
+        }
+        .instructions h2 {
+            color: #007bff;
+        }
+        .instructions p {
+            margin-bottom: 10px;
+        }
+        .instructions .icon {
+            color: #007bff;
+            margin-left: 5px;
+        }
+        .instructions .step {
+            margin-bottom: 20px;
+        }
+        .instructions .step h3 {
+            color: #007bff;
+        }
+        .instructions .step p {
+            margin-bottom: 10px;
+        }
+        .nav-tabs{
+            padding: 0 80px;
+        }
+        .nav-tabs .nav-link.active {
+            background-color: #007bff;
+            color: #fff;
+        }
+        .nav-tabs .nav-link {
+            color: #007bff;
+        }
+        .nav-tabs .nav-link:hover {
+            background-color: #0056b3;
+            color: #fff;
+        }
+        .nav-tabs .nav-link i {
+            margin-left: 5px;
+        }
+        .icon-container {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 50px;
+            height: 50px;
+        }
+        .icon-container img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+        }
+
+        .creators {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin-top: 40px;
+
+        }
+
+        .creator-card {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .creator-card img {
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+        }
+
+        .prof-card {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background-color: #e9ecef;
+            padding: 50px;
+            border-radius: 10px;
+            font-size: 20px;
+            gap: 40px;
+            font-weight: bold;
+            text-align: center;
+            flex-wrap: wrap;
+        }
+
+        .prof-card img {
+            max-width: 500px;
+            min-width: 100px;
+            border-radius: 100%;
+        }
+        .creators-section{
+            max-width: 1000px;
+            margin: auto;
+            padding: 30px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="text-center mb-4">
+            <img src="./images/BUT_logo.png" alt="Icon" style="width: 130px;">
+        </div>
+        <ul class="nav nav-tabs px-sm-0 justify-content-center justify-content-md-start" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="machine-tab" data-bs-toggle="tab" data-bs-target="#machine" type="button" role="tab" aria-controls="machine" aria-selected="true">تعریف و شبیه‌سازی ماشین تورینگ</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="instructions-tab" data-bs-toggle="tab" data-bs-target="#instructions" type="button" role="tab" aria-controls="instructions" aria-selected="false">راهنمای استفاده</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="creators-tab" data-bs-toggle="tab" data-bs-target="#creators" type="button" role="tab" aria-controls="creators" aria-selected="false">سازندگان <i class="fas fa-university"></i></button>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="machine" role="tabpanel" aria-labelledby="machine-tab">
+                <div class="section">
+                    <h2>تعریف و شبیه‌سازی ماشین تورینگ</h2>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="startState" data-tooltip="وضعیت شروع ماشین را مشخص کنید، مانند: q0">
+                                حالت اولیه:
+                            </label>
+                            <input type="text" id="startState" placeholder="مثال: q0">
+                            <label for="transitionFunction" data-tooltip="توابع انتقال را تعریف کنید، مانند: q0,1,0,q0
+                            \nq0,0,R,q1">
+                                توابع انتقال:
+                            </label>
+                            <textarea dir="ltr" id="transitionFunction" rows="4" placeholder="مثال:
+q0,1,0,q0
+q0,0,R,q1"></textarea>
+                            <button class="btn btn-primary mt-3" onclick="defineMachine()">تعریف ماشین</button>
+                            <button class="btn btn-secondary mt-3" onclick="saveMachine()">ذخیره ماشین</button>
+                            <button class="btn btn-secondary mt-3" onclick="loadMachine()">بازیابی ماشین</button>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="inputString" data-tooltip="رشته ورودی را وارد کنید، مانند: 101">
+                                رشته ورودی:
+                            </label>
+                            <input type="text" id="inputString" placeholder="مثال: 101">
+                            <button class="btn btn-secondary mt-3" onclick="initializeTape()">تنظیم نوار</button>
+                            <div id="tape" class="mt-3" dir="ltr"></div>
+                            <div class="accordion mt-3" id="defaultMachinesAccordion">
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingOne">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                            ماشین‌های پیش‌فرض
+                                        </button>
+                                    </h2>
+                                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#defaultMachinesAccordion">
+                                        <div class="accordion-body">
+                                            <select id="defaultMachines" class="form-select" onchange="loadDefaultMachine()">
+                                                <option value="">انتخاب ماشین پیش‌فرض</option>
+                                                <option value="machine1">ماشین 1</option>
+                                                <option value="machine2">ماشین 2</option>
+                                                <option value="machine3">ماشین 3</option>
+                                            </select>
+                                            <p id="defaultMachineDescription" class="mt-3"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <button class="btn btn-success mt-3" onclick="stepExecution()">اجرای گام‌به‌گام</button>
+                            <button class="btn btn-warning mt-3" onclick="resetMachine()">ریست ماشین</button>
+                            <p id="status" class="mt-3">وضعیت: منتظر ورودی...</p>
+                            <p id="currentStateDisplay" class="mt-3">وضعیت فعلی: هنوز تعریف نشده است</p>
+                            <p id="currentTransitionDisplay" class="mt-3">تابع انتقال قبلی: هنوز تعریف نشده است</p>
+                            <p id="nextTransitionDisplay" class="mt-3">تابع انتقال کنونی: هنوز تعریف نشده است</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="instructions" role="tabpanel" aria-labelledby="instructions-tab">
+                <div class="instructions">
+                    <h2><b>راهنمای استفاده</b> <i class="fas fa-info-circle icon"></i></h2>
+                    <div class="step">
+                        <h3>مرحله 1: تعریف ماشین تورینگ</h3>
+                        <p>این ابزار یک شبیه‌ساز ماشین تورینگ است. شما می‌توانید با تعریف حالت اولیه و توابع انتقال، ماشین خود را تعریف کنید.</p>
+                        <p>درصورت تنظیم مجدد نوار یا تعریف دوباره ی ماشین، دکمه ی "ریست ماشین" و سپس دکمه "تنظیم نوار" را فشار دهید.</p>
+                    </div>
+                    <div class="step">
+                        <h3>مرحله 2: ورود داده و مقدار اولیه نوار</h3>
+                        <p>رشته ورودی را وارد کرده و سپس دکمه "تنظیم نوار" را فشار دهید.</p>
+                    </div>
+                    <div class="step">
+                        <h3>مرحله 3: شبیه‌سازی ماشین تورینگ</h3>
+                        <p>برای اجرای گام‌به‌گام، دکمه "اجرای گام‌به‌گام" را فشار دهید.</p>
+                    </div>
+                    <div class="step">
+                        <h3>توضیح توابع انتقال</h3>
+                        <p>کلا دو نوع تابع انتقال داریم، یکی مقدار تغییر میده، و یکی هد نوار رو جابه جا میکنه:</p>
+                        <p>مثال q0,1,0,q0: اگر ماشین در حالت q0 بود،و هد نوار عدد 1 را مشاهده کرد، آن را صفر کند، و سپس به حالت q0 برود.</p>
+                        <p>مثال q0,0,R,q1: اگر ماشین در حالت q0 بود،و هد نوار عدد0 را مشاهده کرد، هد نوار یکی به سمت راست میرود، و سپس به حالت q1 برود.</p>
+                        <p>مثال q1,1,L,q4: اگر ماشین در حالت q1 بود،و هد نوار عدد 1 را مشاهده کرد، هد نوار یکی به سمت چپ میرود، و سپس به حالت q4 برود.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="creators" role="tabpanel" aria-labelledby="creators-tab">
+                <div class="section">
+                    <div class="creators-section">
+                        <h2>سازندگان</h2>
+                        <div class="creators">
+                            <div class="creator-card">
+                                <img src="./images/hamid.jpg" alt="حمیدرضا مهرآبادی">
+                                <p>حمیدرضا مهرآبادی</p>
+                            </div>
+                            <div class="creator-card">
+                                <img src="./images/syna.png" alt="سینا ابارشی">
+                                <p>سینا ابارشی</p>
+                            </div>
+                            <div class="creator-card">
+                                <img src="./images/morad.jpg" alt="محمدرضا مرادزاده">
+                                <p>محمدرضا مرادزاده</p>
+                            </div>
+                            <div class="creator-card">
+                                <img src="./images/poya.jpg" alt="پویا عاقلی">
+                                <p>پویا عاقلی</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="prof-card">
+                        <div>
+                            <p>پروژه کاربردی برای درس نظریه محاسبه تحت راهنمایی </p>
+                            <p style="font-size: 22px;">دکتر سید محمد امین خاتمی</p>
+                        </div>
+                        <img src="./images/drkhatami.jpg" alt="دکتر سید محمد امین خاتمی">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <img src="https://example.com/loading.gif" class="loading-image" id="loadingImage">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./js/index.js"></script>
+</body>
+</html>
