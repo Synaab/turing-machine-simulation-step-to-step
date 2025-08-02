@@ -1,4 +1,4 @@
- **Turing Machine Simulator**
+# 🧠 Turing Machine Simulator
 
 **Getting Started**
 To run the Turing Machine Simulator, simply open the `index.html` file in your preferred web browser. This will launch the simulator interface, allowing you to define and simulate Turing machines.
