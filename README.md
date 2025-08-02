@@ -1,4 +1,4 @@
-# 🧠 Turing Machine Simulator
+#  Turing Machine Simulator
 
 **Getting Started**
 To run the Turing Machine Simulator, simply open the `index.html` file in your preferred web browser. This will launch the simulator interface, allowing you to define and simulate Turing machines.
@@ -12,7 +12,7 @@ To run the Turing Machine Simulator, simply open the `index.html` file in your p
 
 This simulator is designed to help users understand the fundamentals of computation theory and Turing machines in an interactive way. Enjoy exploring the world of theoretical computation!
 
-# 🧠 **شبیه‌ساز ماشین تورینگ**
+# **شبیه‌ساز ماشین تورینگ**
 
  **شروع به کار**
  
